@@ -31,7 +31,7 @@ This afternoon project will be different from the usual ones. There will not be 
 
 * Create a React front end that takes the array of followers and displays it in a list of `Follower` components.
   * A `Follower` component should look like a user's information card.
-  * It should display a followers `avatar_url`, `html_url`, and `login` ( aka their username ). 
+  * It should display a follower's `avatar_url`, `html_url`, and `login` ( aka their username ). 
 * Use `express.static` to server the React front end.
 
 ## Contributions

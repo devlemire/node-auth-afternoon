@@ -1,9 +1,11 @@
 const Auth0Strategy = require('passport-auth0');
+const config = require(`${__dirname}/config.js`);
+const { domain, clientID, clientSecret } = config;
 
 module.exports = new Auth0Strategy({
-   domain:       'jameslemire.auth0.com',
-   clientID:     '4_8ZQzEOP6mYeoQbeAmscWFmjl-SjIVt',
-   clientSecret: '0jst7L31Ygbol37KTMTV504h-OO73anLV_wAoRIsueBgCVR83gtV4vE6FpZJaUhW',
+   domain:       domain,
+   clientID:     clientID,
+   clientSecret: clientSecret,
    callbackURL:  '/login'
   },
   function(accessToken, refreshToken, extraParams, profile, done) {

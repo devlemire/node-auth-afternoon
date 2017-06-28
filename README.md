@@ -60,10 +60,46 @@ In this step, we'll create a `config.js` and `strategy.js` file. `config.js` wil
 * Create a `config.js`.
 * Open `config.js`.
 * Use `module.exports` to export an object with a `domain`, `clientID`, and `clientSecret` property.
-* The values of these properties should equal the values on `manage.auth0.com` for `Default App`.
+  * The values of these properties should equal the values on `manage.auth0.com` for `Default App`.
+* Add `config.js` to `.gitignore`.
 * Create a `strategy.js`.
 * Open `strategy.js`.
+* Require `passport-auth0` in a `Auth0Strategy` variable.
+* Require `config.js`.
+* Use `module.exports` to export a `new Auth0Strategy`.
+  * The values for `domain`, `clientID`, and `clientSecret` should be taken from `config.js`.
 
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> config.js </code> </summary>
+
+```js
+
+```
+
+</details>
+
+<details>
+
+<summary> <code> strategy.js </code> </summary>
+
+```js
+
+```
+
+</details>
 
 ## Black Diamond
 

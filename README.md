@@ -325,7 +325,31 @@ In this step, we'll create a `/login` endpoint that will use `passport` to authe
 
 <br />
 
+Now that passport is completely setup and ready to handle authentication let's create a `'/login'` endpoint in `index.js`. 
 
+```js
+app.get('/login');
+```
+
+We'll want to call `passport.authenticate` and pass in a strategy type and configuration object. The strategy type will be `'auth0'` since we are using an `auth0` strategy.
+
+```js
+app.get('/login',
+  passport.authenticate('auth0', 
+    { }
+  )
+)
+```
+
+Then, in the configuration object we can specify the success and failure redirects, turn failure flash on, and force the connection type to `GitHub`. We can do all of these by using the following properties in the configuration object: `successRedirect`, `failureRedirect`, `failureFlash`, and `connection`. The success redirect should go to `'/followers'`; The failure redirect should go to `'/login'`; Failure flash should be set to `true`; The connection should be set to `'github'`.
+
+```js
+app.get( '/login',
+  passport.authenticate('auth0', 
+    { successRedirect: '/followers', failureRedirect: '/login', failureFlash: true, connection: 'github' }
+  )
+);
+```
 
 </details>
 

@@ -308,10 +308,18 @@ app.listen( port, () => { console.log(`Server listening on port ${port}`); } );
 
 In this step, you'll be required to read documentation on `GitHub`'s API and the documentation for the `request` package. There won't be any detailed instructions on this step. The goal of this step is to expose you to having to read online documentation to figure out how certain technologies work.
 
-* <a href="">GitHub API Docs</a>
-* <a href="">Request NPM Package Docs</a>
+* <a href="https://developer.github.com/v3/">GitHub API Docs</a>
+* <a href="https://www.npmjs.com/package/request">Request NPM Package Docs</a>
 
 ### Instructions
+
+* Open `index.js`.
+* Use `NPM` to install and save `request`.
+* Require `request`.
+* Create a `GET` endpoint at `/followers`.
+  * This endpoint should check to see if `req.user` exists.
+    * If it does, use `request` to get a list of followers for the currently logged in user. Then return the response body from `request`.
+    * It it doesn't, redirect to `'/login'`.
 
 ### Solution
 
@@ -384,6 +392,10 @@ In this step, we'll test the API and see if we can get an array of followers.
 
 * Open a browser and go to `http://localhost:3000/login`.
 * If you have no errors, try to complete the Black Diamond!
+
+### Solution
+
+<b> insert giphy here </b>
 
 ## Black Diamond
 

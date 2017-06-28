@@ -119,6 +119,116 @@ module.exports = new Auth0Strategy({
 
 </details>
 
+## Step 3
+
+### Summary
+
+In this step, we'll require `strategy.js`, configure the app to use sessions, initialize passport, configure passport to use sessions, and have passport use our strategy from `strategy.js`.
+
+### Instructions
+
+* Open `index.js`.
+* Require `passport` in a variable called passport.
+* Require `strategy.js` in a variable called strategy.
+* Configure the app to use sessions. 
+  * Hint: `secret`, `resave`, and `saveUninitialized`.
+* Initialize `passport`.
+* Configure `passport` to use sessions.
+* Configure `passport` to use our strategy from `strategy.js`.
+
+### Solution
+
+<details>
+
+<summary> <code> index.js </code> </summary>
+
+```js
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const strategy = require(`${__dirname}/strategy.js`);
+
+const app = express();
+app.use( session({
+  secret: '@nyth!ng y0u w@nT',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use( passport.initialize() );
+app.use( passport.session() );
+passport.use( strategy );
+
+const port = 3000;
+app.listen( port, () => { console.log(`Server listening on port ${port}`); } );
+```
+
+</details>
+
+## Step 4
+
+### Summary
+
+In this step, we'll configure passport's `serializeUser` and `deserializeUser` methods.
+
+### Instructions
+
+* Open `index.js`.
+* Call `passport.serializeUser`.
+  * Pass in a function as the first argument.
+  * The function should have two parameters: `user` and `done`. 
+  * The function should call `done` and with an object that only has the `clientID`, `email`, `name`, and `followers_url` from `user._json` as the first arugment.
+* Call `passport.deserializeUser`.
+  * Pass in a function as the first argument.
+  * The function should have two parameters: `obj` and `done`.
+  * The functions should just call `done` and pass in `obj` as the first argument.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> index.js </code> </summary>
+
+```js
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const strategy = require(`${__dirname}/strategy.js`);
+
+const app = express();
+app.use( session({
+  secret: '@nyth!ng y0u w@nT',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use( passport.initialize() );
+app.use( passport.session() );
+passport.use( strategy );
+
+passport.serializeUser( (user, done) => {
+  const { _json } = user;
+  done(null, { clientID: _json.clientID, email: _json.email, name: _json.name, followers: _json.followers_url });
+});
+
+passport.deserializeUser( (obj, done) => {
+  done(null, obj);
+});
+
+const port = 3000;
+app.listen( port, () => { console.log(`Server listening on port ${port}`); } );
+```
+
+</details>
+
 ## Black Diamond
 
 * Create a React front end that takes the array of followers and displays it in a list of `Follower` components.

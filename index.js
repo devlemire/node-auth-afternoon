@@ -14,13 +14,12 @@ app.use( passport.initialize() );
 app.use( passport.session() );
 passport.use( strategy );
 
-passport.serializeUser(function(user, done) {
-  console.log( user );
+passport.serializeUser( (user, done) => {
   const { _json } = user;
   done(null, { clientID: _json.clientID, email: _json.email, name: _json.name, followers: _json.followers_url });
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser( (obj, done) => {
   done(null, obj);
 });
 

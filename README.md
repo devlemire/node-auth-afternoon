@@ -84,7 +84,11 @@ In this step, we'll create a `config.js` and `strategy.js` file. `config.js` wil
 <summary> <code> config.js </code> </summary>
 
 ```js
-
+module.exports = {
+  domain:       '...',
+  clientID:     '...',
+  clientSecret: '...',
+};
 ```
 
 </details>
@@ -94,7 +98,23 @@ In this step, we'll create a `config.js` and `strategy.js` file. `config.js` wil
 <summary> <code> strategy.js </code> </summary>
 
 ```js
+const Auth0Strategy = require('passport-auth0');
+const config = require(`${__dirname}/config.js`);
+const { domain, clientID, clientSecret } = config;
 
+module.exports = new Auth0Strategy({
+   domain:       domain,
+   clientID:     clientID,
+   clientSecret: clientSecret,
+   callbackURL:  '/login'
+  },
+  function(accessToken, refreshToken, extraParams, profile, done) {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    return done(null, profile);
+  }
+);
 ```
 
 </details>

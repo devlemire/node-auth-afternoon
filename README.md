@@ -4,8 +4,6 @@
 
 In this project, we'll continue to use `passport`, but instead use the `GitHub` strategy this time. We'll use the same `Default App` from the mini project earlier and modify it to accept the `GitHub` strategy. We'll also expose you to some practice of having to read online documentation. 
 
-This afternoon project will be different from the usual ones. There will not be any detailed instructions. The goal of this afternoon project is to get you comfortable with reading online documentation. If you get stuck feel free to contact a mentor for further assistance. 
-
 ## Setup
 
 * Fork and clone this repository.

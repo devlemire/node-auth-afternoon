@@ -1,4 +1,3 @@
-
 const Auth0Strategy = require('passport-auth0');
 
 module.exports = new Auth0Strategy({

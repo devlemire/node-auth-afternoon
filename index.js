@@ -1,6 +1,8 @@
 const express = require('express');
 const session = require('express-session');
+const passport = require('passport');
 const request = require('request');
+const strategy = require(`${__dirname}/strategy.js`);
 
 const app = express();
 app.use( session({
@@ -8,20 +10,45 @@ app.use( session({
   resave: false,
   saveUninitialized: false
 }));
+app.use( passport.initialize() );
+app.use( passport.session() );
+passport.use( strategy );
 
-const GitHubRequest = {
-  url: 'https://api.github.com/user/followers',
-  headers: {
-    'User-Agent': 'request'
-  }
-}
+passport.serializeUser(function(user, done) {
+  console.log( user );
+  const { _json } = user;
+  done(null, { clientID: _json.clientID, email: _json.email, name: _json.name, followers: _json.followers_url });
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.get( '/login',
+  passport.authenticate('auth0', 
+    { successRedirect: '/followers', failureRedirect: '/login', failureFlash: true, connection: 'github' }
+  )
+);
+
+app.get('/me', ( req, res, next ) => {
+  res.status(200).send( req.user );
+});
 
 app.get('/followers', ( req, res, next ) => {
-  request(GitHubRequest, ( error, response, body ) => {
-    console.log('Error', error);
-    // console.log('Response,', response);
-    console.log('Body', body);
-  });
+  if ( req.user ) {
+    const FollowersRequest = {
+      url: req.user.followers,
+      headers: {
+        'User-Agent': req.user.clientID
+      }
+    };
+
+    request(FollowersRequest, ( error, response, body ) => {
+      res.status(200).send(body);
+    });
+  } else {
+    res.redirect('/login');
+  }
 });
 
 const port = 3000;

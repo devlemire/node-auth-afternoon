@@ -4,6 +4,8 @@
 
 In this project, we'll continue to use `passport`, but instead use the `GitHub` strategy this time. We'll use the same `Default App` from the mini project earlier and modify it to accept the `GitHub` strategy. We'll also expose you to some practice of having to read online documentation. 
 
+At the end of this project, you'll have a fully working node back end that can authorize with GitHub and retrieve a list of followers for the authorized GitHub user.
+
 ## Setup
 
 * Fork and clone this repository.

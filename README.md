@@ -231,6 +231,160 @@ app.listen( port, () => { console.log(`Server listening on port ${port}`); } );
 
 </details>
 
+## Step 5
+
+### Summary
+
+In this step, we'll create a `/login` endpoint that will use `passport` to authenticate with GitHub.
+
+### Instructions
+
+* Open `index.js`.
+* Create a `GET` endpoint at `/login` that calls `passport.authenticate`.
+  * The success redirect should equal `'/followers'`
+    * We'll create this endpoint later.
+  * The failure redirect should equal `'/login'`.
+  * Failure flash should be enabled.
+  * The connection should be forced to use `'GitHub'`.
+    * Hint: You can force passport's connection by using a `connection` property.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+
+### Solution
+
+<details>
+
+<summary> <code> index.js </code> </summary>
+
+```js
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const strategy = require(`${__dirname}/strategy.js`);
+
+const app = express();
+app.use( session({
+  secret: '@nyth!ng y0u w@nT',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use( passport.initialize() );
+app.use( passport.session() );
+passport.use( strategy );
+
+passport.serializeUser( (user, done) => {
+  const { _json } = user;
+  done(null, { clientID: _json.clientID, email: _json.email, name: _json.name, followers: _json.followers_url });
+});
+
+passport.deserializeUser( (obj, done) => {
+  done(null, obj);
+});
+
+app.get( '/login',
+  passport.authenticate('auth0', 
+    { successRedirect: '/followers', failureRedirect: '/login', failureFlash: true, connection: 'github' }
+  )
+);
+
+const port = 3000;
+app.listen( port, () => { console.log(`Server listening on port ${port}`); } );
+```
+
+</details>
+
+## Step 6
+
+### Summary
+
+In this step, you'll be required to read documentation on `GitHub`'s API and the documentation for the `request` package. There won't be any detailed instructions on this step. The goal of this step is to expose you to having to read online documentation to figure out how certain technologies work.
+
+* <a href="">GitHub API Docs</a>
+* <a href="">Request NPM Package Docs</a>
+
+### Instructions
+
+### Solution
+
+<details>
+
+<summary> <code> index.js </code> </summary>
+
+```js
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const request = require('request');
+const strategy = require(`${__dirname}/strategy.js`);
+
+const app = express();
+app.use( session({
+  secret: '@nyth!ng y0u w@nT',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use( passport.initialize() );
+app.use( passport.session() );
+passport.use( strategy );
+
+passport.serializeUser( (user, done) => {
+  const { _json } = user;
+  done(null, { clientID: _json.clientID, email: _json.email, name: _json.name, followers: _json.followers_url });
+});
+
+passport.deserializeUser( (obj, done) => {
+  done(null, obj);
+});
+
+app.get( '/login',
+  passport.authenticate('auth0', 
+    { successRedirect: '/followers', failureRedirect: '/login', failureFlash: true, connection: 'github' }
+  )
+);
+
+app.get('/followers', ( req, res, next ) => {
+  if ( req.user ) {
+    const FollowersRequest = {
+      url: req.user.followers,
+      headers: {
+        'User-Agent': req.user.clientID
+      }
+    };
+
+    request(FollowersRequest, ( error, response, body ) => {
+      res.status(200).send(body);
+    });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+const port = 3000;
+app.listen( port, () => { console.log(`Server listening on port ${port}`); } );
+```
+
+</details>
+
+## Step 7
+
+### Summary
+
+In this step, we'll test the API and see if we can get an array of followers.
+
+### Instructions
+
+* Open a browser and go to `http://localhost:3000/login`.
+* If you have no errors, try to complete the Black Diamond!
+
 ## Black Diamond
 
 * Create a React front end that takes the array of followers and displays it in a list of `Follower` components.

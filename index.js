@@ -29,10 +29,6 @@ app.get( '/login',
   )
 );
 
-app.get('/me', ( req, res, next ) => {
-  res.status(200).send( req.user );
-});
-
 app.get('/followers', ( req, res, next ) => {
   if ( req.user ) {
     const FollowersRequest = {

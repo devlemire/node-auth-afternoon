@@ -68,6 +68,7 @@ In this step, we'll create a `config.js` and `strategy.js` file. `config.js` wil
 * Require `config.js`.
 * Use `module.exports` to export a `new Auth0Strategy`.
   * The values for `domain`, `clientID`, and `clientSecret` should be taken from `config.js`.
+  * Set the callback URL to `'/login'`.
 
 <details>
 
@@ -75,7 +76,50 @@ In this step, we'll create a `config.js` and `strategy.js` file. `config.js` wil
 
 <br />
 
+Let's begin by creating a `config.js` file. The reason we are making this file is so that GitHub doesn't publicly display our sensitive information on `manage.auth0.com`. You never want to push a secret up to GitHub and if you ever do, always immediately refresh your secret. In the `config.js` file use `module.exports` to export an object.
 
+```js
+module.exports = {
+
+};
+```
+
+We can then add our information from `manage.auth0.com` into a `domain`, `clientID`, and `clientSecret` property. ( replace the dots with your actual information )
+
+```js
+module.exports = {
+  domain: '...',
+  clientID: '...',
+  clientSecret: '...'
+};
+```
+
+Then, we can add this file to our `.gitignore` so we don't accidentally push it to GitHub. After it has been added, let's move on to creating a `strategy.js` file. This file will allow us to create a strategy without bulking our `index.js` file. To begin, let's import `passport-auth0` into a variable called `Auth0Strategy` and import `config.js` into a variable called `config`. I will also destructure `config` for easy referencing, however this step is not required.
+
+```js
+const Auth0Strategy = require('passport-auth0');
+const config = require(`${__dirname}/config.js`);
+const { domain, clientID, clientSecret } = config;
+```
+
+Now we can use `module.exports` to export a `new Auth0Strategy` that uses the credentials from `config.js` and calls back to `'/login'`.
+
+```js
+const Auth0Strategy = require('passport-auth0');
+const config = require(`${__dirname}/config.js`);
+const { domain, clientID, clientSecret } = config;
+
+module.exports = new Auth0Strategy({
+   domain:       domain,
+   clientID:     clientID,
+   clientSecret: clientSecret,
+   callbackURL:  '/login'
+  },
+  function(accessToken, refreshToken, extraParams, profile, done) {
+    return done(null, profile);
+  }
+);
+```
 
 </details>
 

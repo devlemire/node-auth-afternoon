@@ -490,7 +490,7 @@ In this step, we'll test the API and see if we can get an array of followers.
 
 ### Solution
 
-<b> insert giphy here </b>
+<img src="https://github.com/DevMountain/node-auth-afternoon/blob/solution/readme-assets/1g.gif" />
 
 ## Black Diamond
 

@@ -234,7 +234,34 @@ In this step, we'll configure passport's `serializeUser` and `deserializeUser` m
 
 <br />
 
+Let's begin by opening `index.js`. After `passport.use( strategy )` let's add `passport.serializeUser` and `passport.deserializeUser`. These methods get called after a successful login and before the success redirect. According to the passport documentation, you use `serializeUser` to pick what properties you want from the return `user` object and you use `deserializeUser` to execute any necessary logic on the new version of the user object. By new version of user object, I mean that when you call `done(null, {})` in `serializeUser` the value of that object then becomes the value of the `obj` parameter in `deserializeUser`.
 
+```js
+passport.serializeUser( (user, done) => {
+
+});
+
+passport.deserializeUser( (obj, done) => {
+
+});
+```
+
+Since we only want the `clientID`, `email`, `name`, and `followers_url` from `user` we'll call done with a new object instead of the entire `user` object. Remember, we pick what properties we want in `serializeUser`.
+
+```js
+passport.serializeUser( (user, done) => {
+  const { _json } = user;
+  done(null, { clientID: _json.clientID, email: _json.email, name: _json.name, followers: _json.followers_url });
+});
+```
+
+This new object will then be passed on to `deserializeUser` when `done` is invoked. Since we don't have any additional logic to execute, simply call `done` with `null` and `obj`.
+
+```js
+passport.deserializeUser( (obj, done) => {
+  done( null, obj );
+});
+```
 
 </details>
 

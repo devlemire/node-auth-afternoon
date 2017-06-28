@@ -16,15 +16,53 @@ This afternoon project will be different from the usual ones. There will not be 
 
 ### Summary
 
-
+In this step, we'll modify the `Default App` on `manage.auth0.com` to accept the `GitHub` strategy.
 
 ### Instructions
 
+* Go to `manage.auth0.com` and login to the account you created in the mini project from earlier.
+* Using the left navigation bar, click on `connections` and then click on `social`.
+* Turn on the `GitHub` slider.
+* Under `Permissions` select `read:user`.
+* At the top of the same modal, click on `Clients`.
+* Turn on the slider for the `Default App`.
 
+## Step 2
+
+### Summary 
+
+In this step, we'll use npm to get the required passport dependencies.
+
+### Instructions
+
+* Install and save `passport` and `passport-auth0`.
 
 ### Solution
 
+<details>
 
+<summary> <code> NPM Install </code> </summary>
+
+```
+npm install --save passport passport-auth0
+```
+
+</details>
+
+## Step 3
+
+### Summary
+
+In this step, we'll create a `config.js` and `strategy.js` file. `config.js` will be responsible for storing our client's `id`, `domain`, and `secret`. We'll use `.gitignore` on this file so GitHub can't see it. `strategy.js` will be responsible for creating and exporting a `new Auth0Strategy` that uses the values from `config.js`.
+
+### Instructions
+
+* Create a `config.js`.
+* Open `config.js`.
+* Use `module.exports` to export an object with a `domain`, `clientID`, and `clientSecret` property.
+* The values of these properties should equal the values on `manage.auth0.com` for `Default App`.
+* Create a `strategy.js`.
+* Open `strategy.js`.
 
 
 ## Black Diamond
